@@ -9,8 +9,6 @@ def rucksack_to_pockets(rucksack: str) -> Tuple[Set[str],Set[str]]:
 
 def unique_item(rucksack: str) -> str:
     left_pocket, right_pocket = rucksack_to_pockets(rucksack)
-    if not left_pocket.intersection(right_pocket):
-        print(rucksack, left_pocket, right_pocket)
     return ''.join(left_pocket.intersection(right_pocket))
 
 
