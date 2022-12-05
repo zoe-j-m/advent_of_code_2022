@@ -25,7 +25,6 @@ def parse_to_position(lines: List[str]) -> Dict[int, List[str]]:
 
     result = {}
     for line in lines:
-        print(line)
         for pile in range(1, max_pile + 1):
             position = (pile - 1) * 4 + 1
             if position < len(line) and line[position] != ' ':
