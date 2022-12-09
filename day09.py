@@ -2,10 +2,6 @@ from typing import List, Tuple, Set, Dict
 
 from utilities import file_handling
 
-from utilities.matrices import Matrix
-
-from functools import reduce
-
 
 def line_to_move(line: str) -> Tuple[str, int]:
     return line[0], int(line[2:])
