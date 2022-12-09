@@ -1,6 +1,6 @@
 from typing import List, TypeVar, Tuple
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class Matrix:
@@ -20,8 +20,21 @@ class Matrix:
             width = len(self.rows[0])
         return width
 
+    def rotate_left(self):
+        return Matrix(
+            [
+                [self.rows[j][i] for j in range(len(self.rows))]
+                for i in range(len(self.rows[0]) - 1, -1, -1)
+            ]
+        )
+
     def transpose(self):
-        return Matrix([[self.rows[j][i] for j in range(len(self.rows))] for i in range(len(self.rows[0]))])
+        return Matrix(
+            [
+                [self.rows[j][i] for j in range(len(self.rows))]
+                for i in range(len(self.rows[0]))
+            ]
+        )
 
     def flatten(self):
         return [item for sublist in self.rows for item in sublist]

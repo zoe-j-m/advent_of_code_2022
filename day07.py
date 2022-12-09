@@ -12,7 +12,9 @@ class SystemItem(ABC):
 
 
 class Directory(SystemItem):
-    def __init__(self, name: str, items: List[SystemItem], parent: Optional['Directory']):
+    def __init__(
+        self, name: str, items: List[SystemItem], parent: Optional["Directory"]
+    ):
         self.name = name
         self.items = items
         self.parent = parent
@@ -31,14 +33,17 @@ class File(SystemItem):
 
 
 def parse_command(command: str, current_directory: Directory) -> Directory:
-    if command == 'cd ..':
+    if command == "cd ..":
         return current_directory.parent
-    elif command == 'ls':
+    elif command == "ls":
         return current_directory
-    elif command.startswith('cd'):
+    elif command.startswith("cd"):
         new_directory = command[3:]
-        item: Directory = next(item for item in current_directory.items if
-                               item.name == new_directory and item.__class__ == Directory)
+        item: Directory = next(
+            item
+            for item in current_directory.items
+            if item.name == new_directory and item.__class__ == Directory
+        )
         if item:
             return item
         else:
@@ -49,7 +54,7 @@ FILE_REGEX = r"(\d*) (\S*)"
 
 
 def parse_name(line: str, current_directory: Directory) -> SystemItem:
-    if line[0:3] == 'dir':
+    if line[0:3] == "dir":
         return Directory(line[4:], [], current_directory)
     else:
         capture_groups = list(re.search(FILE_REGEX, line).groups())
@@ -60,15 +65,19 @@ def parse_line(line: str, current_directory: Directory) -> Directory:
     if len(line.strip()) == 0:
         return current_directory
 
-    if line[0] == '$':
+    if line[0] == "$":
         return parse_command(line[2:], current_directory)
     else:
         current_directory.items.append(parse_name(line, current_directory))
         return current_directory
 
 
-def get_directory_names_with_sizes(current_directory: Directory) -> List[Tuple[str, int]]:
-    directories = [item for item in current_directory.items if item.__class__ == Directory]
+def get_directory_names_with_sizes(
+    current_directory: Directory,
+) -> List[Tuple[str, int]]:
+    directories = [
+        item for item in current_directory.items if item.__class__ == Directory
+    ]
     result = []
     for directory in directories:
         result.append((directory.name, directory.get_size()))
@@ -77,7 +86,7 @@ def get_directory_names_with_sizes(current_directory: Directory) -> List[Tuple[s
 
 
 def parse_and_build_top_level(lines: List[str]) -> Directory:
-    starting = Directory('/', [], None)
+    starting = Directory("/", [], None)
     current_directory = starting
     for line in lines[1:]:
         current_directory = parse_line(line, current_directory)
