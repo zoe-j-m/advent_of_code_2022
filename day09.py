@@ -1,4 +1,4 @@
-from typing import List, Tuple, Set, Dict
+from typing import List, Tuple
 
 from utilities import file_handling
 
@@ -43,10 +43,10 @@ def move_tail(head: Tuple[int, int], tail: Tuple[int, int]) -> Tuple[int, int]:
     return tail_x, tail_y
 
 
-def part2(lines: List[str]) -> int:
+def solve(lines: List[str], knots: int) -> int:
     moves = map(line_to_move, lines)
     tails = []
-    for i in range(10):
+    for i in range(knots):
         tails.append((0, 0))
     visited = set((0, 0))
     for move in moves:
@@ -66,20 +66,11 @@ def part2(lines: List[str]) -> int:
 
 
 def part1(lines: List[str]) -> int:
-    moves = map(line_to_move, lines)
-    head = 0, 0
-    tail = 0, 0
-    visited = set(tail)
-    for move in moves:
-        direction, distance = move
-        for idx in range(distance):
-            head = apply_move_to_head(direction, head)
+    return solve(lines, 2)
 
-            if distance_between(head, tail) > 1:
-                tail = move_tail(head, tail)
-                visited.add(tail)
 
-    return len(visited)
+def part2(lines: List[str]) -> int:
+    return solve(lines, 10)
 
 
 if __name__ == "__main__":
